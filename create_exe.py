@@ -19,61 +19,66 @@ if os.path.exists("dist"):
 if os.path.exists("build"):
     shutil.rmtree("build")
 
-# Create version info file
-version_info = f"""
-VSVersionInfo(
-  ffi=FixedFileInfo(
-    filevers=({VERSION.replace('.', ', ')}, 0),
-    prodvers=({VERSION.replace('.', ', ')}, 0),
-    mask=0x3f,
-    flags=0x0,
-    OS=0x40004,
-    fileType=0x1,
-    subtype=0x0,
-    date=(0, 0)
-  ),
-  kids=[
-    StringFileInfo(
-      [
-      StringTable(
-        u'040904B0',
-        [StringStruct(u'CompanyName', u'Nanamin'),
-        StringStruct(u'FileDescription', u'CBZ Optimizer'),
-        StringStruct(u'FileVersion', u'{VERSION}'),
-        StringStruct(u'InternalName', u'{APP_NAME}'),
-        StringStruct(u'LegalCopyright', u'MIT License'),
-        StringStruct(u'OriginalFilename', u'{APP_NAME}.exe'),
-        StringStruct(u'ProductName', u'Nanamin CBZ Optimizer'),
-        StringStruct(u'ProductVersion', u'{VERSION}')])
-      ]), 
-    VarFileInfo([VarStruct(u'Translation', [1033, 1200])])
-  ]
-)
-"""
+# Base PyInstaller arguments
+pyinstaller_args = [
+    "src/main.py",
+    "--name",
+    APP_NAME,
+    "--windowed",
+    "--icon",
+    ICON_PATH,
+    "--add-data",
+    f"{ASSETS_PATH}{os.pathsep}{os.path.basename(ASSETS_PATH)}",
+    "--clean",
+]
 
-with open("version_info.txt", "w") as f:
-    f.write(version_info)
+if IS_WINDOWS:
+    # Create version info file for Windows
+    version_info = f"""
+    VSVersionInfo(
+      ffi=FixedFileInfo(
+        filevers=({VERSION.replace('.', ', ')}, 0),
+        prodvers=({VERSION.replace('.', ', ')}, 0),
+        mask=0x3f,
+        flags=0x0,
+        OS=0x40004,
+        fileType=0x1,
+        subtype=0x0,
+        date=(0, 0)
+      ),
+      kids=[
+        StringFileInfo(
+          [
+          StringTable(
+            u'040904B0',
+            [StringStruct(u'CompanyName', u'Nanamin'),
+            StringStruct(u'FileDescription', u'CBZ Optimizer'),
+            StringStruct(u'FileVersion', u'{VERSION}'),
+            StringStruct(u'InternalName', u'{APP_NAME}'),
+            StringStruct(u'LegalCopyright', u'MIT License'),
+            StringStruct(u'OriginalFilename', u'{APP_NAME}.exe'),
+            StringStruct(u'ProductName', u'Nanamin CBZ Optimizer'),
+            StringStruct(u'ProductVersion', u'{VERSION}')])
+          ]), 
+        VarFileInfo([VarStruct(u'Translation', [1033, 1200])])
+      ]
+    )
+    """
+    with open("version_info.txt", "w") as f:
+        f.write(version_info)
+
+    # Add Windows-specific arguments
+    pyinstaller_args.extend(["--onefile", "--version-file", "version_info.txt"])
+else:
+    # macOS-specific arguments - create only .app bundle
+    pyinstaller_args.append("--onedir")  # Required for proper .app bundle
 
 # Create executable
-PyInstaller.__main__.run(
-    [
-        "src/main.py",
-        "--name",
-        APP_NAME,
-        "--onefile",
-        "--windowed",
-        "--icon",
-        ICON_PATH,
-        "--add-data",
-        f"{ASSETS_PATH}{os.pathsep}{os.path.basename(ASSETS_PATH)}",
-        "--version-file",
-        "version_info.txt",
-        "--clean",
-    ]
-)
+PyInstaller.__main__.run(pyinstaller_args)
 
-# Clean up version info file
-os.remove("version_info.txt")
+# Clean up temporary files
+if os.path.exists("version_info.txt"):
+    os.remove("version_info.txt")
 
 if IS_WINDOWS:
     try:
@@ -116,15 +121,14 @@ if IS_WINDOWS:
 
         # Create file association
         create_file_association()
+        print(f"\nWindows executable created: dist/{APP_NAME}.exe")
+        print("The executable is portable and can be run from any location")
+        print("\nFile association has been set up automatically.")
+        print("You can now right-click on CBZ files to use the application.")
     except ImportError:
         print(
             "Warning: Could not import winreg module. File association will not be available."
         )
 else:
-    print("Note: File association is only available on Windows.")
-
-print(f"\nPortable Windows executable created: dist/{APP_NAME}.exe")
-print("The executable is portable and can be run from any location")
-if IS_WINDOWS:
-    print("\nFile association has been set up automatically.")
-    print("You can now right-click on CBZ files to use the application.")
+    print(f"\nmacOS application bundle created: dist/{APP_NAME}.app")
+    print("You can now move the .app bundle to your Applications folder")
