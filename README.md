@@ -30,6 +30,10 @@ A modern and efficient CBZ compression tool to reduce the size of your manga and
 4. Adjust the quality slider if needed (default: 85)
 5. Click "Compress" to start the process
 
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
 ## Support the Project
 
 If you find Nanamin useful, consider supporting its development through [GitHub Sponsors](https://github.com/sponsors/crisperience). Your support helps maintain and improve the application. 
