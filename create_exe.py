@@ -3,10 +3,11 @@ import os
 import shutil
 from pathlib import Path
 import sys
+import plistlib
 
 # Configuration
 APP_NAME = "Nanamin"
-VERSION = "1.0.0"
+VERSION = "0.1.0"
 ICON_PATH = "src/assets/icon.png"
 ASSETS_PATH = "src/assets"
 
@@ -70,8 +71,16 @@ if IS_WINDOWS:
     # Add Windows-specific arguments
     pyinstaller_args.extend(["--onefile", "--version-file", "version_info.txt"])
 else:
-    # macOS-specific arguments - create only .app bundle
-    pyinstaller_args.append("--onedir")  # Required for proper .app bundle
+    # macOS-specific arguments
+    pyinstaller_args.extend(
+        [
+            "--onedir",
+            "--target-arch",
+            "universal2",
+            "--osx-bundle-identifier",
+            "com.crisperience.nanamin",
+        ]
+    )
 
 # Create executable
 PyInstaller.__main__.run(pyinstaller_args)
@@ -79,6 +88,31 @@ PyInstaller.__main__.run(pyinstaller_args)
 # Clean up temporary files
 if os.path.exists("version_info.txt"):
     os.remove("version_info.txt")
+
+if not IS_WINDOWS:
+    # Update Info.plist for macOS
+    info_plist_path = f"dist/{APP_NAME}.app/Contents/Info.plist"
+    if os.path.exists(info_plist_path):
+        with open(info_plist_path, "rb") as f:
+            info_plist = plistlib.load(f)
+
+        # Update the plist with additional keys
+        info_plist.update(
+            {
+                "CFBundleShortVersionString": VERSION,
+                "CFBundleVersion": VERSION,
+                "LSMinimumSystemVersion": "10.13.0",
+                "NSHighResolutionCapable": True,
+                "NSRequiresAquaSystemAppearance": False,
+                "CFBundleDisplayName": APP_NAME,
+                "CFBundleIdentifier": "com.crisperience.nanamin",
+                "CFBundlePackageType": "APPL",
+                "LSApplicationCategoryType": "public.app-category.utilities",
+            }
+        )
+
+        with open(info_plist_path, "wb") as f:
+            plistlib.dump(info_plist, f)
 
 if IS_WINDOWS:
     try:
