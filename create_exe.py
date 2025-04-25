@@ -75,8 +75,6 @@ else:
     pyinstaller_args.extend(
         [
             "--onedir",
-            "--target-arch",
-            "universal2",
             "--osx-bundle-identifier",
             "com.crisperience.nanamin",
         ]
