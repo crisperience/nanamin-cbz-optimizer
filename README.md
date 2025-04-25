@@ -25,7 +25,7 @@ A modern and efficient CBZ compression tool to reduce the size of your manga and
    - After this first launch, you can open normally by double-clicking
 
 ### Windows
-We are actively working on a portable Windows version. Stay tuned for updates!
+I am actively working on a portable Windows version. Stay tuned for updates!
 
 ## Usage
 
