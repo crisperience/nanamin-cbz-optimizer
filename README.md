@@ -28,6 +28,7 @@ If you find Nanamin useful, please consider sponsoring the project to support it
    - Look for the message about Nanamin being blocked
    - Click "Open Anyway"
    - Click "Open" in the confirmation dialog
+   - Launch the app again by double-clicking it
    - After this first launch, you can open normally by double-clicking
 
 ### Windows
