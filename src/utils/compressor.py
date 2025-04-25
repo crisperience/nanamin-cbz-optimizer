@@ -41,7 +41,9 @@ class CBZCompressor:
                     for file in files:
                         if file.lower().endswith((".png", ".jpg", ".jpeg")):
                             file_path = os.path.join(root, file)
+                            # Change extension to .webp while keeping the same base name
                             rel_path = os.path.relpath(file_path, temp_dir)
+                            rel_path = os.path.splitext(rel_path)[0] + ".webp"
                             current_file = file
 
                             # Open and compress image
@@ -56,13 +58,13 @@ class CBZCompressor:
                                 elif img.mode != "RGB":
                                     img = img.convert("RGB")
 
-                                # Compress image
+                                # Compress image using WebP
                                 img_byte_arr = io.BytesIO()
                                 img.save(
                                     img_byte_arr,
-                                    format="JPEG",
+                                    format="WEBP",
                                     quality=self.quality,
-                                    optimize=True,
+                                    method=6,  # Highest compression method
                                 )
                                 img_byte_arr.seek(0)
 
@@ -76,17 +78,19 @@ class CBZCompressor:
                                 if elapsed_time > 0
                                 else 0
                             )
-
                             yield total_images, processed_images, current_file, speed
 
         finally:
             # Clean up temporary directory
-            shutil.rmtree(temp_dir)
+            if temp_dir.exists():
+                shutil.rmtree(temp_dir)
 
     def get_file_size(self, file_path):
         """Get file size in MB"""
         return os.path.getsize(file_path) / (1024 * 1024)
 
     def calculate_savings(self, original_size, compressed_size):
-        """Calculate size reduction percentage"""
+        """Calculate space savings percentage"""
+        if original_size == 0:
+            return 0
         return ((original_size - compressed_size) / original_size) * 100
