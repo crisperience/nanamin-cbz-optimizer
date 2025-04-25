@@ -7,15 +7,10 @@ A modern and efficient CBZ compression tool to reduce the size of your manga and
 - Compress CBZ files with adjustable quality settings
 - Batch processing support
 - Real-time progress tracking
-- Cross-platform (Windows & macOS)
+- Native macOS application
 - Portable - no installation required
 
 ## Download & Installation
-
-### Windows
-1. Download `Nanamin.exe` from the [Releases](https://github.com/crisperience/nanamin-cbz-optimizer/releases) page
-2. Run the executable from any location - no installation needed
-3. (Optional) Right-click any CBZ file to use Nanamin directly
 
 ### macOS
 1. Download `Nanamin.app.zip` from the [Releases](https://github.com/crisperience/nanamin-cbz-optimizer/releases) page
@@ -28,6 +23,9 @@ A modern and efficient CBZ compression tool to reduce the size of your manga and
    - Click "Open Anyway"
    - Click "Open" in the confirmation dialog
    - After this first launch, you can open normally by double-clicking
+
+### Windows
+We are actively working on a portable Windows version. Stay tuned for updates!
 
 ## Usage
 
