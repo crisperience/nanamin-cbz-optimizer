@@ -26,23 +26,4 @@ A modern and efficient CBZ compression tool to reduce the size of your manga and
 2. Click "Select CBZ Files" to choose files to compress
 3. Select an output directory
 4. Adjust the quality slider if needed (default: 85)
-5. Click "Compress" to start the process
-
-## Development
-
-To build from source:
-
-```bash
-# Clone the repository
-git clone https://github.com/crisperience/nanamin-cbz-compressor.git
-
-# Install dependencies
-pip install -r requirements.txt
-
-# Build the application
-pyinstaller manga_compressor.spec
-```
-
-## License
-
-MIT License 
+5. Click "Compress" to start the process 
