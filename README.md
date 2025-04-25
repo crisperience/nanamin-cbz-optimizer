@@ -22,11 +22,12 @@ A modern and efficient CBZ compression tool to reduce the size of your manga and
 2. Extract the zip file
 3. Move `Nanamin.app` to your Applications folder (optional)
 4. First Launch:
-   - Right-click (or Control-click) `Nanamin.app` and select "Open"
-   - Click "Open" in the security dialog
+   - When you try to open the app, you'll see a security warning
+   - Go to System Settings > Privacy & Security
+   - Look for the message about Nanamin being blocked
+   - Click "Open Anyway"
+   - Click "Open" in the confirmation dialog
    - After this first launch, you can open normally by double-clicking
-
-Note: If you see a security warning, you can also go to System Settings > Privacy & Security and click "Open Anyway".
 
 ## Usage
 
