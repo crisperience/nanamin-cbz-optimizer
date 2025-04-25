@@ -30,8 +30,4 @@ Requirements:
 
 Build:
 - Windows: `python create_exe.py`
-- macOS: `python create_exe.py`
-
-## License
-
-[MIT License](LICENSE) 
+- macOS: `python create_exe.py` 
