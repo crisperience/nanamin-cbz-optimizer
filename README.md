@@ -2,6 +2,12 @@
 
 A modern and efficient CBZ compression tool to reduce the size of your manga and comics while maintaining quality.
 
+## Sponsor
+
+If you find Nanamin useful, please consider sponsoring the project to support its development.
+
+[![Sponsor](https://img.shields.io/badge/Sponsor-%E2%9D%A4-red)](https://github.com/sponsors/crisperience)
+
 ## Features
 
 - Compress CBZ files with adjustable quality settings
