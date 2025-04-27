@@ -8,7 +8,7 @@ import plistlib
 # Configuration
 APP_NAME = "Nanamin"
 VERSION = "0.1.0"
-ICON_PATH = "src/assets/icon.png"
+ICON_PATH = "src/assets/nanamin_icon.png"
 ASSETS_PATH = "src/assets"
 
 # Check if running on Windows

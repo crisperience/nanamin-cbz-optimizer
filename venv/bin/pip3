@@ -1,4 +1,4 @@
-#!/Users/martin/Code/sumimasen/venv/bin/python3
+#!/Users/martin/Code/nanamin-cbz-optimizer/venv/bin/python3.13
 # -*- coding: utf-8 -*-
 import re
 import sys
