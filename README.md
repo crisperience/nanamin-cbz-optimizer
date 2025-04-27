@@ -10,9 +10,7 @@ If you find Nanamin useful, please consider sponsoring the project to support it
 
 - Efficient CBZ compression with quality control
 - Batch processing support
-- Modern, user-friendly interface
 - Progress tracking and statistics
-- File size savings calculation
 - macOS application bundle support
 
 ## Installation
