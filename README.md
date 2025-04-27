@@ -17,9 +17,11 @@ If you find Nanamin useful, please consider sponsoring the project to support it
 
 ### macOS
 
-1. Download the latest release from the [Releases](https://github.com/crisperience/nanamin-cbz-optimizer/releases) page
-2. Move `Nanamin.app` to your Applications folder
-3. Launch the application
+Nanamin will be available soon on the Mac App Store and GitHub Releases. The app is currently undergoing certification.
+
+## App Store Release
+
+Nanamin is currently undergoing App Store certification. The official release will be available soon on both the Mac App Store and GitHub Releases.
 
 ## Usage
 
