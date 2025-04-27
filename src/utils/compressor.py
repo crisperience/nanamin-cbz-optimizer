@@ -7,6 +7,7 @@ from pathlib import Path
 import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
 import multiprocessing
+from typing import List, Tuple, Generator, Optional
 
 
 class CBZCompressor:
@@ -14,6 +15,47 @@ class CBZCompressor:
         self.quality = quality
         # Use number of CPU cores for parallel processing
         self.max_workers = max(1, multiprocessing.cpu_count() - 1)
+
+    def validate_cbz(self, file_path: str) -> Tuple[bool, str]:
+        """Validate if a file is a valid CBZ file.
+
+        Args:
+            file_path: Path to the file to validate
+
+        Returns:
+            Tuple[bool, str]: (is_valid, error_message)
+        """
+        try:
+            if not os.path.exists(file_path):
+                return False, "File does not exist"
+
+            if not file_path.lower().endswith(".cbz"):
+                return False, "File is not a CBZ file"
+
+            # Check if it's a valid zip file
+            with zipfile.ZipFile(file_path, "r") as zip_ref:
+                # Check if it contains any image files
+                has_images = False
+                for file in zip_ref.namelist():
+                    if file.lower().endswith((".png", ".jpg", ".jpeg")):
+                        has_images = True
+                        break
+
+                if not has_images:
+                    return False, "CBZ file contains no images"
+
+                # Check if all files are valid
+                for file in zip_ref.namelist():
+                    try:
+                        zip_ref.getinfo(file)
+                    except Exception as e:
+                        return False, f"Invalid file in CBZ: {file}"
+
+            return True, ""
+        except zipfile.BadZipFile:
+            return False, "File is not a valid ZIP archive"
+        except Exception as e:
+            return False, f"Error validating CBZ file: {str(e)}"
 
     def compress_image(self, file_path, rel_path):
         """Compress a single image and return the compressed data"""
@@ -48,6 +90,11 @@ class CBZCompressor:
         Compress a CBZ file while maintaining image quality
         Returns: tuple of (total_images, processed_images, current_file, speed)
         """
+        # Validate CBZ file first
+        is_valid, error_msg = self.validate_cbz(input_path)
+        if not is_valid:
+            raise ValueError(error_msg)
+
         # Create temporary directory for processing
         temp_dir = Path(output_path).parent / "temp_processing"
         temp_dir.mkdir(exist_ok=True)

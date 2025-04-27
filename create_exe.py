@@ -20,6 +20,28 @@ if os.path.exists("dist"):
 if os.path.exists("build"):
     shutil.rmtree("build")
 
+# Find Qt plugins directory
+QT_PLUGINS_DIR = "/opt/homebrew/share/qt/plugins"
+if not os.path.exists(QT_PLUGINS_DIR):
+    QT_PLUGINS_DIR = "/opt/homebrew/Cellar/qt/6.9.0/share/qt/plugins"
+
+# Create runtime hook for Qt
+runtime_hook = """
+import os
+import sys
+
+def qt_plugin_paths():
+    if getattr(sys, 'frozen', False):
+        # Running in a bundle
+        return [os.path.join(sys._MEIPASS, 'platforms')]
+    return []
+
+os.environ['QT_QPA_PLATFORM_PLUGIN_PATH'] = os.pathsep.join(qt_plugin_paths())
+"""
+
+with open("qt_hook.py", "w") as f:
+    f.write(runtime_hook)
+
 # Base PyInstaller arguments
 pyinstaller_args = [
     "src/main.py",
@@ -31,6 +53,25 @@ pyinstaller_args = [
     "--add-data",
     f"{ASSETS_PATH}{os.pathsep}{os.path.basename(ASSETS_PATH)}",
     "--clean",
+    # Add Qt plugins
+    "--add-data",
+    f"{QT_PLUGINS_DIR}/platforms{os.pathsep}platforms",
+    "--add-data",
+    f"{QT_PLUGINS_DIR}/styles{os.pathsep}styles",
+    "--add-data",
+    f"{QT_PLUGINS_DIR}/imageformats{os.pathsep}imageformats",
+    # Hidden imports for Qt
+    "--hidden-import",
+    "PyQt6.QtCore",
+    "--hidden-import",
+    "PyQt6.QtGui",
+    "--hidden-import",
+    "PyQt6.QtWidgets",
+    "--hidden-import",
+    "PyQt6.sip",
+    # Runtime hook for Qt
+    "--runtime-hook",
+    "qt_hook.py",
 ]
 
 if IS_WINDOWS:
@@ -86,6 +127,8 @@ PyInstaller.__main__.run(pyinstaller_args)
 # Clean up temporary files
 if os.path.exists("version_info.txt"):
     os.remove("version_info.txt")
+if os.path.exists("qt_hook.py"):
+    os.remove("qt_hook.py")
 
 if not IS_WINDOWS:
     # Update Info.plist for macOS
@@ -111,6 +154,9 @@ if not IS_WINDOWS:
 
         with open(info_plist_path, "wb") as f:
             plistlib.dump(info_plist, f)
+
+    print(f"\nmacOS application bundle created: dist/{APP_NAME}.app")
+    print("You can now move the .app bundle to your Applications folder")
 
 if IS_WINDOWS:
     try:
@@ -161,6 +207,3 @@ if IS_WINDOWS:
         print(
             "Warning: Could not import winreg module. File association will not be available."
         )
-else:
-    print(f"\nmacOS application bundle created: dist/{APP_NAME}.app")
-    print("You can now move the .app bundle to your Applications folder")

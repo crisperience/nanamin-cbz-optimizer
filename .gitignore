@@ -59,6 +59,11 @@ env/
 .LSOverride
 ._*
 
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
 # Application specific
 dist/
 build/
