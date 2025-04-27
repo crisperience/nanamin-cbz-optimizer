@@ -19,10 +19,6 @@ If you find Nanamin useful, please consider sponsoring the project to support it
 
 Nanamin will be available soon on the Mac App Store and GitHub Releases. The app is currently undergoing certification.
 
-## App Store Release
-
-Nanamin is currently undergoing App Store certification. The official release will be available soon on both the Mac App Store and GitHub Releases.
-
 ## Usage
 
 1. Click "Select CBZ Files" to choose your manga/comic files
