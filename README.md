@@ -2,8 +2,6 @@
 
 A modern tool for optimizing manga and comic book files while maintaining quality.
 
-## Sponsor
-
 If you find Nanamin useful, please consider sponsoring the project to support its development.
 
 [![Sponsor](https://img.shields.io/badge/Sponsor-%E2%9D%A4-red)](https://github.com/sponsors/crisperience)
@@ -38,10 +36,6 @@ If you find Nanamin useful, please consider sponsoring the project to support it
 - **85**: Good balance (recommended)
 - **70**: Smaller file size, slight quality loss
 - **50**: Significant compression, noticeable quality loss
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## Support
 
