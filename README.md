@@ -1,4 +1,4 @@
-# Nanamin - Manga & Comic Optimizer
+# Nanamin – Manga & Comic Optimizer
 
 A modern tool for optimizing manga and comic book files while maintaining quality.
 
@@ -18,16 +18,9 @@ If you find Nanamin useful, please consider sponsoring the project to support it
 
 You can download the latest signed release from the [GitHub Releases page](https://github.com/crisperience/nanamin-cbz-optimizer/releases).
 
-#### How to Install:
-
 1. Download the `.dmg` file from the latest release.
 2. Open the DMG and drag `Nanamin.app` to your `Applications` folder.
 3. Launch Nanamin from Applications.
-
-**Security:**
-
-- Nanamin is signed with an official Apple Developer certificate.
-- You should not see any security warnings. If you do, please ensure you downloaded the DMG from the official App Store or GitHub Releases page.
 
 ## Usage
 
