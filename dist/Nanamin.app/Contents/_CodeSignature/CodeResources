@@ -374,19 +374,59 @@
 		</data>
 		<key>Resources/assets/nanamin_icon.icns</key>
 		<data>
-		JuybLp6tw7Dt03Lk+qwAPFJuzGM=
+		RGwh/SymTk87JTAOxRKuz1tUWl4=
+		</data>
+		<key>Resources/assets/nanamin_icon.iconset/icon_128x128.png</key>
+		<data>
+		nGHpMHUg2w1P6icoIgBNT8EdPgM=
+		</data>
+		<key>Resources/assets/nanamin_icon.iconset/icon_128x128@2x.png</key>
+		<data>
+		Mg9WCZdY5GNZrTttzUDlznPqCxk=
+		</data>
+		<key>Resources/assets/nanamin_icon.iconset/icon_16x16.png</key>
+		<data>
+		hQi31waiNW+lKwRXLngP3PGyqAk=
+		</data>
+		<key>Resources/assets/nanamin_icon.iconset/icon_16x16@2x.png</key>
+		<data>
+		XwXZJ5hM2WEHnK256b2jqJNd74g=
+		</data>
+		<key>Resources/assets/nanamin_icon.iconset/icon_256x256.png</key>
+		<data>
+		Mg9WCZdY5GNZrTttzUDlznPqCxk=
+		</data>
+		<key>Resources/assets/nanamin_icon.iconset/icon_256x256@2x.png</key>
+		<data>
+		aWv71pqJ370hBFpaDeijfg7aGbU=
+		</data>
+		<key>Resources/assets/nanamin_icon.iconset/icon_32x32.png</key>
+		<data>
+		XwXZJ5hM2WEHnK256b2jqJNd74g=
+		</data>
+		<key>Resources/assets/nanamin_icon.iconset/icon_32x32@2x.png</key>
+		<data>
+		6FER2e3EzEYx+UrKL9X9nSECM3k=
+		</data>
+		<key>Resources/assets/nanamin_icon.iconset/icon_512x512.png</key>
+		<data>
+		aWv71pqJ370hBFpaDeijfg7aGbU=
+		</data>
+		<key>Resources/assets/nanamin_icon.iconset/icon_512x512@2x.png</key>
+		<data>
+		ivrLrtAasyjWvSh3foAaZWTjS9I=
 		</data>
 		<key>Resources/assets/nanamin_icon.png</key>
 		<data>
-		sJhe8JSFmOSp7Rw4th+hYg7XPIU=
+		ivrLrtAasyjWvSh3foAaZWTjS9I=
 		</data>
 		<key>Resources/base_library.zip</key>
 		<data>
-		wWcA43eYc0muHIiEn3xzrZy7uqE=
+		OMb0kvLPprDpizpHrPDWF7ToPMo=
 		</data>
-		<key>Resources/generated-86ff2a8cb86f9ab14b5db07c388895b999ecf9dfaa534ae089adb4f8590e9173.icns</key>
+		<key>Resources/nanamin_icon.icns</key>
 		<data>
-		BT14yBHW+0JPdeJEDk4K2qhF4eo=
+		RGwh/SymTk87JTAOxRKuz1tUWl4=
 		</data>
 	</dict>
 	<key>files2</key>
@@ -2502,34 +2542,97 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			WcMYyYU20m6jhPg1y44WpaOznP1I0pXyJ0MUwJETsaA=
+			nq2yEN1EDD/1/JWY5BGluprMIKq7DhsqkL8mP9eHhRg=
+			</data>
+		</dict>
+		<key>Resources/assets/nanamin_icon.iconset/icon_128x128.png</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			Lh8GAqsGz38Di4VzUDFOHh1bQtOs1uUCUMv25SMSDrQ=
+			</data>
+		</dict>
+		<key>Resources/assets/nanamin_icon.iconset/icon_128x128@2x.png</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			GohTIgYnPVDM0/k1g6gZFCWnZf/rmxojDYvXiLV8JyQ=
+			</data>
+		</dict>
+		<key>Resources/assets/nanamin_icon.iconset/icon_16x16.png</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			cjtXUWs0QWc5dXhoq8v5CFInOKtNblNrBt0yn0uHOHg=
+			</data>
+		</dict>
+		<key>Resources/assets/nanamin_icon.iconset/icon_16x16@2x.png</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			ULVueI0qO/nXukHlqQxeJFg5hrWMSSODjrU3Lz5Eyew=
+			</data>
+		</dict>
+		<key>Resources/assets/nanamin_icon.iconset/icon_256x256.png</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			GohTIgYnPVDM0/k1g6gZFCWnZf/rmxojDYvXiLV8JyQ=
+			</data>
+		</dict>
+		<key>Resources/assets/nanamin_icon.iconset/icon_256x256@2x.png</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			qpXl3KdX9JtUwa3adDhDTTIx3QuAVTPiIOZavyp0ZUI=
+			</data>
+		</dict>
+		<key>Resources/assets/nanamin_icon.iconset/icon_32x32.png</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			ULVueI0qO/nXukHlqQxeJFg5hrWMSSODjrU3Lz5Eyew=
+			</data>
+		</dict>
+		<key>Resources/assets/nanamin_icon.iconset/icon_32x32@2x.png</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			QWgqUFGzLerPKWxlezK0YD6IKYeZBHa/8n5M3a1ifg8=
+			</data>
+		</dict>
+		<key>Resources/assets/nanamin_icon.iconset/icon_512x512.png</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			qpXl3KdX9JtUwa3adDhDTTIx3QuAVTPiIOZavyp0ZUI=
+			</data>
+		</dict>
+		<key>Resources/assets/nanamin_icon.iconset/icon_512x512@2x.png</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			1dN5HK0cImAK/IucLvt63Bxpig7Z4mhCE2Y3gIKBZUs=
 			</data>
 		</dict>
 		<key>Resources/assets/nanamin_icon.png</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			GsPB8MS4cKd3RTnhtOCES9YgkGMUPqhoxD2mNow3hcA=
+			1dN5HK0cImAK/IucLvt63Bxpig7Z4mhCE2Y3gIKBZUs=
 			</data>
 		</dict>
 		<key>Resources/base_library.zip</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			TKV6OBup4afQyx39N82vNAgqdqMV+lCLs7cQGQhz2Tk=
+			SeUij/GTivFhYxpiU7ESigj9ZOomfczmQJ8+gdqC6jw=
 			</data>
 		</dict>
 		<key>Resources/charset_normalizer</key>
 		<dict>
 			<key>symlink</key>
 			<string>../Frameworks/charset_normalizer</string>
-		</dict>
-		<key>Resources/generated-86ff2a8cb86f9ab14b5db07c388895b999ecf9dfaa534ae089adb4f8590e9173.icns</key>
-		<dict>
-			<key>hash2</key>
-			<data>
-			TuQ2WimHX2TcC6MeCa2nSH3ksDKURXj1rGKysNfHnas=
-			</data>
 		</dict>
 		<key>Resources/imageformats</key>
 		<dict>
@@ -2725,6 +2828,13 @@
 		<dict>
 			<key>symlink</key>
 			<string>../Frameworks/libzstd.1.dylib</string>
+		</dict>
+		<key>Resources/nanamin_icon.icns</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			nq2yEN1EDD/1/JWY5BGluprMIKq7DhsqkL8mP9eHhRg=
+			</data>
 		</dict>
 		<key>Resources/numpy</key>
 		<dict>

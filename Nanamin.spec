@@ -37,7 +37,7 @@ exe = EXE(
     target_arch=None,
     codesign_identity='Apple Development: martin.kajtazi95@gmail.com (3V3T4TQDVV)',
     entitlements_file='entitlements.plist',
-    icon=['src/assets/nanamin_icon.png'],
+    icon=['src/assets/nanamin_icon.icns'],
 )
 coll = COLLECT(
     exe,
@@ -51,7 +51,7 @@ coll = COLLECT(
 app = BUNDLE(
     coll,
     name='Nanamin.app',
-    icon='src/assets/nanamin_icon.png',
+    icon='src/assets/nanamin_icon.icns',
     bundle_identifier='com.crisp.nanamin',
     info_plist={
         'CFBundleShortVersionString': '1.0.0',
