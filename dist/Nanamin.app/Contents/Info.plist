@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleDisplayName</key>
+	<string>Nanamin</string>
+	<key>CFBundleExecutable</key>
+	<string>Nanamin</string>
+	<key>CFBundleIconFile</key>
+	<string>generated-86ff2a8cb86f9ab14b5db07c388895b999ecf9dfaa534ae089adb4f8590e9173.icns</string>
+	<key>CFBundleIdentifier</key>
+	<string>com.crisperience.nanamin</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundleName</key>
+	<string>Nanamin</string>
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+	<key>CFBundleShortVersionString</key>
+	<string>1.0.0</string>
+	<key>CFBundleVersion</key>
+	<string>1.0.0</string>
+	<key>LSMinimumSystemVersion</key>
+	<string>10.15.0</string>
+	<key>NSHighResolutionCapable</key>
+	<true/>
+	<key>NSHumanReadableCopyright</key>
+	<string>© 2025 Martin Kajtazi</string>
+</dict>
+</plist>
