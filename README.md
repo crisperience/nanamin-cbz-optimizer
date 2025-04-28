@@ -11,13 +11,23 @@ If you find Nanamin useful, please consider sponsoring the project to support it
 - Efficient CBZ compression with quality control
 - Batch processing support
 - Progress tracking and statistics
-- macOS application bundle support
 
 ## Installation
 
 ### macOS
 
-Nanamin will be available soon on the Mac App Store and GitHub Releases. The app is currently undergoing certification.
+You can download the latest signed release from the [GitHub Releases page](https://github.com/crisperience/nanamin-cbz-optimizer/releases).
+
+#### How to Install:
+
+1. Download the `.dmg` file from the latest release.
+2. Open the DMG and drag `Nanamin.app` to your `Applications` folder.
+3. Launch Nanamin from Applications.
+
+**Security:**
+
+- Nanamin is signed with an official Apple Developer certificate.
+- You should not see any security warnings. If you do, please ensure you downloaded the DMG from the official App Store or GitHub Releases page.
 
 ## Usage
 
