@@ -47,6 +47,7 @@ wheels/
 *.egg-info/
 .installed.cfg
 *.egg
+MANIFEST
 
 # Virtual Environment
 venv/
@@ -67,4 +68,7 @@ Desktop.ini
 # Application specific
 dist/
 build/
-*.spec 
+*.spec
+!Nanamin.spec
+!dist/Nanamin-1.0.0.dmg
+!dist/Nanamin.app 

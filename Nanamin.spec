@@ -5,7 +5,12 @@ a = Analysis(
     ['src/main.py'],
     pathex=[],
     binaries=[],
-    datas=[('src/assets', 'assets'), ('/opt/homebrew/share/qt/plugins/platforms', 'platforms'), ('/opt/homebrew/share/qt/plugins/styles', 'styles'), ('/opt/homebrew/share/qt/plugins/imageformats', 'imageformats')],
+    datas=[
+        ('src/assets', 'assets'),
+        ('/opt/homebrew/share/qt/plugins/platforms/libqcocoa.dylib', 'platforms'),
+        ('/opt/homebrew/share/qt/plugins/styles/libqmacstyle.dylib', 'styles'),
+        ('/opt/homebrew/share/qt/plugins/imageformats', 'imageformats')
+    ],
     hiddenimports=['PyQt6.QtCore', 'PyQt6.QtGui', 'PyQt6.QtWidgets', 'PyQt6.sip'],
     hookspath=[],
     hooksconfig={},
@@ -47,7 +52,7 @@ app = BUNDLE(
     coll,
     name='Nanamin.app',
     icon='src/assets/nanamin_icon.png',
-    bundle_identifier='com.crisperience.nanamin',
+    bundle_identifier='com.crisp.nanamin',
     info_plist={
         'CFBundleShortVersionString': '1.0.0',
         'CFBundleVersion': '1.0.0',

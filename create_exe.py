@@ -117,7 +117,7 @@ else:
         [
             "--onedir",
             "--osx-bundle-identifier",
-            "com.crisperience.nanamin",
+            "com.crisp.nanamin",
         ]
     )
 
@@ -146,7 +146,7 @@ if not IS_WINDOWS:
                 "NSHighResolutionCapable": True,
                 "NSRequiresAquaSystemAppearance": False,
                 "CFBundleDisplayName": APP_NAME,
-                "CFBundleIdentifier": "com.crisperience.nanamin",
+                "CFBundleIdentifier": "com.crisp.nanamin",
                 "CFBundlePackageType": "APPL",
                 "LSApplicationCategoryType": "public.app-category.utilities",
             }

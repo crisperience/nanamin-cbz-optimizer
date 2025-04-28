@@ -374,19 +374,19 @@
 		</data>
 		<key>Resources/assets/nanamin_icon.icns</key>
 		<data>
-		GjTr8SusFRQkVIvddJS3yUs22G8=
+		JuybLp6tw7Dt03Lk+qwAPFJuzGM=
 		</data>
 		<key>Resources/assets/nanamin_icon.png</key>
 		<data>
-		oVK5rxjJLFZz7byow9/R7KowJy0=
+		sJhe8JSFmOSp7Rw4th+hYg7XPIU=
 		</data>
 		<key>Resources/base_library.zip</key>
 		<data>
-		KBnrAKngGmRr4U19xRV6qJKFZ7c=
+		wWcA43eYc0muHIiEn3xzrZy7uqE=
 		</data>
 		<key>Resources/generated-86ff2a8cb86f9ab14b5db07c388895b999ecf9dfaa534ae089adb4f8590e9173.icns</key>
 		<data>
-		0EFN6afsoKMV/xJle0tti7bdSgc=
+		BT14yBHW+0JPdeJEDk4K2qhF4eo=
 		</data>
 	</dict>
 	<key>files2</key>
@@ -1717,29 +1717,29 @@
 			<key>requirement</key>
 			<string>identifier libqcocoa and anchor apple generic and certificate leaf[subject.CN] = "Apple Development: martin.kajtazi95@gmail.com (3V3T4TQDVV)" and certificate 1[field.1.2.840.113635.100.6.2.1] /* exists */</string>
 		</dict>
-		<key>Frameworks/platforms/libqminimal.dylib</key>
-		<dict>
-			<key>cdhash</key>
-			<data>
-			zdCVQRjAifuzqizSvl2WWzSNrdM=
-			</data>
-			<key>requirement</key>
-			<string>identifier libqminimal and anchor apple generic and certificate leaf[subject.CN] = "Apple Development: martin.kajtazi95@gmail.com (3V3T4TQDVV)" and certificate 1[field.1.2.840.113635.100.6.2.1] /* exists */</string>
-		</dict>
-		<key>Frameworks/platforms/libqoffscreen.dylib</key>
-		<dict>
-			<key>cdhash</key>
-			<data>
-			kziuSSR8CjjvOYmunxPYRNRx12I=
-			</data>
-			<key>requirement</key>
-			<string>identifier libqoffscreen and anchor apple generic and certificate leaf[subject.CN] = "Apple Development: martin.kajtazi95@gmail.com (3V3T4TQDVV)" and certificate 1[field.1.2.840.113635.100.6.2.1] /* exists */</string>
-		</dict>
 		<key>Frameworks/styles/libqmacstyle.dylib</key>
 		<dict>
 			<key>cdhash</key>
 			<data>
 			RxP/rOqh9NgaQ2R/NK389zev7kI=
+			</data>
+			<key>requirement</key>
+			<string>identifier libqmacstyle and anchor apple generic and certificate leaf[subject.CN] = "Apple Development: martin.kajtazi95@gmail.com (3V3T4TQDVV)" and certificate 1[field.1.2.840.113635.100.6.2.1] /* exists */</string>
+		</dict>
+		<key>PlugIns/platforms/libqcocoa.dylib</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			8sNfWLpkzCkDppfPwPjG7FEnz1w=
+			</data>
+			<key>requirement</key>
+			<string>identifier libqcocoa and anchor apple generic and certificate leaf[subject.CN] = "Apple Development: martin.kajtazi95@gmail.com (3V3T4TQDVV)" and certificate 1[field.1.2.840.113635.100.6.2.1] /* exists */</string>
+		</dict>
+		<key>PlugIns/styles/libqmacstyle.dylib</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			rGyFpUM13nWrdSfY/gYPz0wfIuA=
 			</data>
 			<key>requirement</key>
 			<string>identifier libqmacstyle and anchor apple generic and certificate leaf[subject.CN] = "Apple Development: martin.kajtazi95@gmail.com (3V3T4TQDVV)" and certificate 1[field.1.2.840.113635.100.6.2.1] /* exists */</string>
@@ -2502,21 +2502,21 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			VvKdCuCI72v162JlaQFoIuuAYSFkIzWXHR0mEclLIBE=
+			WcMYyYU20m6jhPg1y44WpaOznP1I0pXyJ0MUwJETsaA=
 			</data>
 		</dict>
 		<key>Resources/assets/nanamin_icon.png</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			5psNgUHMl45FM+/Ixh46LSm61QxYDNu5npRxW1qjDmU=
+			GsPB8MS4cKd3RTnhtOCES9YgkGMUPqhoxD2mNow3hcA=
 			</data>
 		</dict>
 		<key>Resources/base_library.zip</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			DXWEfjkuLBN2M/es8Dgcs/ypX6WDvLAVN7F8DFFxK4A=
+			TKV6OBup4afQyx39N82vNAgqdqMV+lCLs7cQGQhz2Tk=
 			</data>
 		</dict>
 		<key>Resources/charset_normalizer</key>
@@ -2528,7 +2528,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			wlt+pjHoxV/tddRO4/YPyyF7/ZrVZYT0vipRJFErpOg=
+			TuQ2WimHX2TcC6MeCa2nSH3ksDKURXj1rGKysNfHnas=
 			</data>
 		</dict>
 		<key>Resources/imageformats</key>
