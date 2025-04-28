@@ -70,5 +70,8 @@ dist/
 build/
 *.spec
 !Nanamin.spec
-!dist/Nanamin-1.0.0.dmg
-!dist/Nanamin.app 
+# !dist/Nanamin-1.0.0.dmg
+# !dist/Nanamin.app
+
+# Iconset intermediate files
+src/assets/nanamin_icon.iconset/ 
