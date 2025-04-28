@@ -59,5 +59,6 @@ app = BUNDLE(
         'NSHumanReadableCopyright': '© 2025 Martin Kajtazi',
         'LSMinimumSystemVersion': '10.15.0',
         'NSHighResolutionCapable': True,
+        'CFBundleIconFile': 'nanamin_icon',
     },
 )
