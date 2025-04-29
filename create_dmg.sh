@@ -24,6 +24,9 @@ hdiutil create -volname "${APP_NAME} - ${APP_SUBTITLE}" -srcfolder "${DMG_DIR}" 
 # Convert to final DMG with proper compression
 hdiutil convert "${DMG_TEMP}" -format UDZO -imagekey zlib-level=9 -o "dist/${DMG_NAME}"
 
+# Sign the DMG
+codesign --force --options runtime --sign "Apple Development: martin.kajtazi95@gmail.com (3V3T4TQDVV)" "dist/${DMG_NAME}"
+
 # Clean up
 rm -rf "${DMG_DIR}"
 rm "${DMG_TEMP}"

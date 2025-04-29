@@ -24,12 +24,18 @@ fi
 cp -R /opt/homebrew/Cellar/qt/6.9.0/share/qt/plugins/styles/libqmacstyle.dylib dist/Nanamin.app/Contents/PlugIns/styles/
 cp -R /opt/homebrew/Cellar/qt/6.9.0/share/qt/plugins/platforms/libqcocoa.dylib dist/Nanamin.app/Contents/PlugIns/platforms/
 
-# Sign the plugins
-codesign --force --options runtime --sign "Apple Development: martin.kajtazi95@gmail.com (3V3T4TQDVV)" dist/Nanamin.app/Contents/PlugIns/styles/libqmacstyle.dylib
-codesign --force --options runtime --sign "Apple Development: martin.kajtazi95@gmail.com (3V3T4TQDVV)" dist/Nanamin.app/Contents/PlugIns/platforms/libqcocoa.dylib
+# Sign all binaries recursively
+find dist/Nanamin.app -type f -name "*.so" -o -name "*.dylib" | while read -r binary; do
+    codesign --force --options runtime --timestamp --sign "Developer ID Application: MARTIN KAJTAZI (YS8D2GW7DN)" "$binary"
+done
 
-# Re-sign the app
-codesign --force --options runtime --entitlements entitlements.plist --sign "Apple Development: martin.kajtazi95@gmail.com (3V3T4TQDVV)" dist/Nanamin.app
+# Sign frameworks
+find dist/Nanamin.app/Contents/Frameworks -type f -name "Python" -o -name "Qt*" | while read -r framework; do
+    codesign --force --options runtime --timestamp --sign "Developer ID Application: MARTIN KAJTAZI (YS8D2GW7DN)" "$framework"
+done
+
+# Sign the app bundle
+codesign --force --options runtime --timestamp --entitlements entitlements.plist --sign "Developer ID Application: MARTIN KAJTAZI (YS8D2GW7DN)" dist/Nanamin.app
 
 # Create DMG
 ./create_dmg.sh 
