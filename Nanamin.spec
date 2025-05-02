@@ -6,7 +6,10 @@ a = Analysis(
     ['src/main.py'],
     pathex=[],
     binaries=[],
-    datas=[],
+    datas=[
+        ('venv/lib/python3.13/site-packages/PyQt6/Qt6/plugins/platforms', 'PyQt6/Qt6/plugins/platforms'),
+        ('venv/lib/python3.13/site-packages/PyQt6/Qt6/plugins/styles', 'PyQt6/Qt6/plugins/styles'),
+    ],
     hiddenimports=[],
     hookspath=[],
     hooksconfig={},
