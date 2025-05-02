@@ -1,49 +1,47 @@
-import sys
 import os
-from PyQt6.QtWidgets import (
-    QApplication,
-    QMainWindow,
-    QWidget,
-    QVBoxLayout,
-    QHBoxLayout,
-    QPushButton,
-    QLabel,
-    QFileDialog,
-    QProgressBar,
-    QSlider,
-    QSpinBox,
-    QGroupBox,
-    QMessageBox,
-    QToolButton,
-    QStyle,
-    QSizePolicy,
-    QDialog,
-    QTabWidget,
-    QTextBrowser,
-    QScrollArea,
-    QMenuBar,
-    QMenu,
-)
-from PyQt6.QtCore import Qt, QThread, pyqtSignal, QSize
-from PyQt6.QtGui import (
-    QIcon,
-    QFont,
-    QPalette,
-    QColor,
-    QKeySequence,
-    QShortcut,
-    QPainter,
-    QPainterPath,
-)
-from utils.compressor import CBZCompressor
-import zipfile
-import shutil
+import sys
 import time
 from pathlib import Path
 
+from PyQt6.QtCore import Qt, QThread, pyqtSignal
+from PyQt6.QtGui import (
+    QColor,
+    QKeySequence,
+    QPaintEvent,
+    QPalette,
+    QResizeEvent,
+    QShortcut,
+)
+from PyQt6.QtWidgets import (
+    QApplication,
+    QDialog,
+    QFileDialog,
+    QGroupBox,
+    QHBoxLayout,
+    QLabel,
+    QMainWindow,
+    QMessageBox,
+    QProgressBar,
+    QPushButton,
+    QSlider,
+    QSpinBox,
+    QTabWidget,
+    QTextBrowser,
+    QToolButton,
+    QVBoxLayout,
+    QWidget,
+)
+
+from utils.compressor import CBZCompressor
+
+# Constants
+SECONDS_IN_MINUTE: int = 60
+SECONDS_IN_HOUR: int = 3600
+DEFAULT_QUALITY: int = 85
+
 
 class ModernProgressBar(QProgressBar):
-    def __init__(self, parent=None):
+    def __init__(self, parent: QWidget | None = None) -> None:
         super().__init__(parent)
         self.setTextVisible(True)
         self.setAlignment(Qt.AlignmentFlag.AlignCenter)
@@ -66,7 +64,7 @@ class ModernProgressBar(QProgressBar):
 
 
 class ModernButton(QPushButton):
-    def __init__(self, text, parent=None):
+    def __init__(self, text: str, parent: QWidget | None = None) -> None:
         super().__init__(text, parent)
         self.setStyleSheet(
             """
@@ -94,7 +92,7 @@ class ModernButton(QPushButton):
 
 
 class ModernGroupBox(QGroupBox):
-    def __init__(self, title, parent=None):
+    def __init__(self, title: str, parent: QWidget | None = None) -> None:
         super().__init__(title, parent)
         self.setStyleSheet(
             """
@@ -117,7 +115,7 @@ class ModernGroupBox(QGroupBox):
 
 
 class ModernInfoIcon(QToolButton):
-    def __init__(self, parent=None):
+    def __init__(self, parent: QWidget | None = None) -> None:
         super().__init__(parent)
         self.setFixedSize(24, 24)
         self.setStyleSheet(
@@ -139,103 +137,51 @@ class ModernInfoIcon(QToolButton):
         self.setToolTip("Click for help and keyboard shortcuts")
         self.setText("?")
 
-    def paintEvent(self, event):
-        # No custom painting needed, just use the text
+    def paintEvent(self, event: QPaintEvent | None) -> None:
+        """Handle paint event for the help icon."""
         super().paintEvent(event)
+
+    def resizeEvent(self, event: QResizeEvent | None) -> None:
+        """Handle window resize to keep help button in top-right corner."""
+        super().resizeEvent(event)
+        # Find the help button and update its position with padding
+        for child in self.findChildren(ModernInfoIcon):
+            child.move(self.width() - 40, 15)
 
 
 class CompressionWorker(QThread):
     progress = pyqtSignal(
         int, int, int, str, float
-    )  # total, processed, current_file, speed
-    finished = pyqtSignal(dict)
+    )  # total, current, file_num, filename, speed
+    finished = pyqtSignal()
     error = pyqtSignal(str)
-    aborted = pyqtSignal()
 
-    def __init__(self, input_files, output_dir, quality):
-        super().__init__()
-        self.input_files = input_files
-        self.output_dir = output_dir
+    def __init__(
+        self,
+        input_file: str,
+        output_file: str,
+        quality: int,
+        parent: QWidget | None = None,
+    ) -> None:
+        super().__init__(parent)
+        self.input_file = input_file
+        self.output_file = output_file
         self.quality = quality
         self.compressor = CBZCompressor(quality)
-        self._is_aborted = False
 
-    def abort(self):
-        self._is_aborted = True
-
-    def run(self):
+    def run(self) -> None:
+        """Process the CBZ file in a separate thread."""
         try:
-            results = {
-                "total_files": len(self.input_files),
-                "total_original_size": 0,
-                "total_compressed_size": 0,
-                "savings": 0,
-                "processed_files": 0,
-            }
 
-            total_images = 0
-            # First pass: count total images
-            for input_file in self.input_files:
-                temp_dir = Path(self.output_dir) / "temp_processing"
-                temp_dir.mkdir(exist_ok=True)
-                try:
-                    with zipfile.ZipFile(input_file, "r") as zip_ref:
-                        zip_ref.extractall(temp_dir)
-                        for root, _, files in os.walk(temp_dir):
-                            for file in files:
-                                if file.lower().endswith((".png", ".jpg", ".jpeg")):
-                                    total_images += 1
-                finally:
-                    shutil.rmtree(temp_dir)
+            def progress_callback(total: int, current: int, filename: str) -> None:
+                self.progress.emit(total, current, current, filename, 0.0)
 
-            processed_images = 0
-            start_time = time.time()
-
-            for i, input_file in enumerate(self.input_files):
-                if self._is_aborted:
-                    self.aborted.emit()
-                    return
-
-                # Calculate original size
-                original_size = self.compressor.get_file_size(input_file)
-                results["total_original_size"] += original_size
-
-                # Create output path
-                output_file = os.path.join(
-                    self.output_dir, os.path.basename(input_file)
-                )
-
-                # Compress file and get progress updates
-                for (
-                    file_total_images,
-                    file_processed_images,
-                    current_file,
-                    speed,
-                ) in self.compressor.compress_file(input_file, output_file):
-                    if self._is_aborted:
-                        self.aborted.emit()
-                        return
-
-                    processed_images += 1
-                    total_progress = int((processed_images / total_images) * 100)
-                    self.progress.emit(
-                        total_images, processed_images, i + 1, current_file, speed
-                    )
-
-                # Calculate compressed size
-                compressed_size = self.compressor.get_file_size(output_file)
-                results["total_compressed_size"] += compressed_size
-                results["processed_files"] += 1
-
-            # Calculate total savings
-            results["savings"] = self.compressor.calculate_savings(
-                results["total_original_size"], results["total_compressed_size"]
+            self.compressor.process_cbz(
+                self.input_file, self.output_file, progress_callback
             )
-
-            self.finished.emit(results)
-
-        except Exception as e:
-            self.error.emit(str(e))
+            self.finished.emit()
+        except Exception as error:
+            self.error.emit(str(error))
 
 
 class HelpDialog(QDialog):
@@ -319,11 +265,9 @@ class HelpDialog(QDialog):
                 <div style="text-align: left; margin-bottom: 20px;">
                     <span style="font-size: 24px; color: #88C0D0;">Nanamin 1.0.0</span>
                 </div>
-                
                 <div style="text-align: left; margin-bottom: 20px;">
                     <a href="https://github.com/crisperience" style="color: #88C0D0; text-decoration: none; font-size: 16px;">📦 GitHub</a>
                 </div>
-                
                 <div style="text-align: left;">
                     <a href="mailto:martin@crisp.hr" style="color: #88C0D0; text-decoration: none; font-size: 16px;">✉️ martin@crisp.hr</a>
                 </div>
@@ -345,7 +289,7 @@ class HelpDialog(QDialog):
 
 
 class MainWindow(QMainWindow):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
         self.setWindowTitle("Manga & Comic Optimizer")
         self.setMinimumSize(900, 700)
@@ -353,17 +297,40 @@ class MainWindow(QMainWindow):
         # Create central widget and layout
         central_widget = QWidget()
         self.setCentralWidget(central_widget)
-        layout = QVBoxLayout(central_widget)
-        layout.setSpacing(15)
-        layout.setContentsMargins(20, 40, 20, 20)
+        self.main_layout = QVBoxLayout(central_widget)
+        self.main_layout.setSpacing(15)
+        self.main_layout.setContentsMargins(20, 40, 20, 20)
 
-        # Add help button to top-right corner
+        # Initialize variables
+        self.input_files: list[str] = []
+        self.output_dir: str = ""
+        self.worker: CompressionWorker | None = None
+        self.start_time: float | None = None
+        self.original_size: float = 0.0
+        self.compressed_size: float = 0.0
+        self.savings: float = 0.0
+
+        self._setup_ui()
+        self.setup_shortcuts()
+
+    def _setup_ui(self) -> None:
+        """Set up the main UI components."""
+        self._setup_help_button()
+        self._setup_file_group()
+        self._setup_settings_group()
+        self._setup_progress_group()
+        self._setup_status_label()
+        self._setup_buttons()
+
+    def _setup_help_button(self) -> None:
+        """Set up the help button in the top-right corner."""
         help_button = ModernInfoIcon()
         help_button.clicked.connect(lambda: self.show_help_section(0))
         help_button.setParent(self)
         help_button.move(self.width() - 40, 15)
 
-        # File selection group
+    def _setup_file_group(self) -> None:
+        """Set up the file selection group."""
         file_group = ModernGroupBox("Files")
         file_layout = QVBoxLayout()
         file_layout.setSpacing(10)
@@ -391,9 +358,10 @@ class MainWindow(QMainWindow):
         file_layout.addLayout(output_layout)
 
         file_group.setLayout(file_layout)
-        layout.addWidget(file_group)
+        self.main_layout.addWidget(file_group)
 
-        # Compression settings group
+    def _setup_settings_group(self) -> None:
+        """Set up the compression settings group."""
         settings_group = ModernGroupBox("Compression Settings")
         settings_layout = QVBoxLayout()
         settings_layout.setSpacing(10)
@@ -405,7 +373,7 @@ class MainWindow(QMainWindow):
         self.quality_slider = QSlider(Qt.Orientation.Horizontal)
         self.quality_slider.setMinimum(1)
         self.quality_slider.setMaximum(100)
-        self.quality_slider.setValue(85)
+        self.quality_slider.setValue(DEFAULT_QUALITY)
         self.quality_slider.setTickPosition(QSlider.TickPosition.TicksBelow)
         self.quality_slider.setTickInterval(10)
         self.quality_slider.setStyleSheet(
@@ -429,10 +397,8 @@ class MainWindow(QMainWindow):
         )
         self.quality_value = QSpinBox()
         self.quality_value.setRange(1, 100)
-        self.quality_value.setValue(85)
-        self.quality_value.setButtonSymbols(
-            QSpinBox.ButtonSymbols.NoButtons
-        )  # Remove up/down arrows
+        self.quality_value.setValue(DEFAULT_QUALITY)
+        self.quality_value.setButtonSymbols(QSpinBox.ButtonSymbols.NoButtons)
         self.quality_slider.valueChanged.connect(self.quality_value.setValue)
         self.quality_value.valueChanged.connect(self.quality_slider.setValue)
 
@@ -442,12 +408,13 @@ class MainWindow(QMainWindow):
         settings_layout.addLayout(quality_layout)
 
         settings_group.setLayout(settings_layout)
-        layout.addWidget(settings_group)
+        self.main_layout.addWidget(settings_group)
 
-        # Progress information
+    def _setup_progress_group(self) -> None:
+        """Set up the progress information group."""
         progress_group = ModernGroupBox("Progress")
         progress_layout = QVBoxLayout()
-        progress_layout.setSpacing(10)  # Reverted back to original spacing
+        progress_layout.setSpacing(10)
 
         # Progress bar
         self.progress_bar = ModernProgressBar()
@@ -455,21 +422,15 @@ class MainWindow(QMainWindow):
 
         # Detailed progress labels
         self.file_progress_label = QLabel("File: 0/0")
-        self.file_progress_label.setStyleSheet(
-            "padding-left: 8px;"
-        )  # Removed top padding
+        self.file_progress_label.setStyleSheet("padding-left: 8px;")
         self.image_progress_label = QLabel("Images: 0/0")
-        self.image_progress_label.setStyleSheet(
-            "padding-left: 8px;"
-        )  # Removed top padding
+        self.image_progress_label.setStyleSheet("padding-left: 8px;")
         self.current_file_label = QLabel("Current: -")
-        self.current_file_label.setStyleSheet(
-            "padding-left: 8px;"
-        )  # Removed top padding
+        self.current_file_label.setStyleSheet("padding-left: 8px;")
         self.speed_label = QLabel("Speed: 0.0 images/sec")
-        self.speed_label.setStyleSheet("padding-left: 8px;")  # Removed top padding
+        self.speed_label.setStyleSheet("padding-left: 8px;")
         self.eta_label = QLabel("ETA: -")
-        self.eta_label.setStyleSheet("padding-left: 8px;")  # Removed top padding
+        self.eta_label.setStyleSheet("padding-left: 8px;")
 
         progress_layout.addWidget(self.file_progress_label)
         progress_layout.addWidget(self.image_progress_label)
@@ -478,14 +439,16 @@ class MainWindow(QMainWindow):
         progress_layout.addWidget(self.eta_label)
 
         progress_group.setLayout(progress_layout)
-        layout.addWidget(progress_group)
+        self.main_layout.addWidget(progress_group)
 
-        # Status label
+    def _setup_status_label(self) -> None:
+        """Set up the status label."""
         self.status_label = QLabel("")
         self.status_label.setStyleSheet("font-size: 14px; font-weight: bold;")
-        layout.addWidget(self.status_label)
+        self.main_layout.addWidget(self.status_label)
 
-        # Button layout
+    def _setup_buttons(self) -> None:
+        """Set up the action buttons."""
         button_layout = QHBoxLayout()
         button_layout.setSpacing(10)
 
@@ -509,18 +472,9 @@ class MainWindow(QMainWindow):
         self.new_batch_button.setEnabled(False)
         button_layout.addWidget(self.new_batch_button)
 
-        layout.addLayout(button_layout)
+        self.main_layout.addLayout(button_layout)
 
-        # Initialize variables
-        self.input_files = []
-        self.output_dir = ""
-        self.worker = None
-        self.start_time = None
-
-        # Set up keyboard shortcuts
-        self.setup_shortcuts()
-
-    def setup_shortcuts(self):
+    def setup_shortcuts(self) -> None:
         """Set up keyboard shortcuts for the application."""
         # File operations
         QShortcut(QKeySequence("Ctrl+O"), self).activated.connect(
@@ -539,13 +493,13 @@ class MainWindow(QMainWindow):
             self.reset_for_new_batch
         )
 
-    def show_help_section(self, tab_index):
+    def show_help_section(self, tab_index: int) -> None:
         """Show the help dialog with a specific tab selected."""
         dialog = HelpDialog(self)
         dialog.tab_widget.setCurrentIndex(tab_index)
         dialog.exec()
 
-    def show_about(self):
+    def show_about(self) -> None:
         """Show the about dialog."""
         QMessageBox.about(
             self,
@@ -562,7 +516,8 @@ class MainWindow(QMainWindow):
             <p>Version 1.0</p>""",
         )
 
-    def select_input_files(self):
+    def select_input_files(self) -> None:
+        """Select input CBZ files."""
         files, _ = QFileDialog.getOpenFileNames(
             self, "Select CBZ Files", "", "CBZ Files (*.cbz);;All Files (*)"
         )
@@ -570,7 +525,8 @@ class MainWindow(QMainWindow):
             self.input_files = files
             self.input_label.setText(f"{len(files)} file(s) selected")
 
-    def select_output_directory(self):
+    def select_output_directory(self) -> None:
+        """Select output directory."""
         directory = QFileDialog.getExistingDirectory(
             self, "Select Output Directory", ""
         )
@@ -578,7 +534,8 @@ class MainWindow(QMainWindow):
             self.output_dir = directory
             self.output_label.setText(directory)
 
-    def start_compression(self):
+    def start_compression(self) -> None:
+        """Start the compression process."""
         if not self.input_files:
             self.status_label.setText("Please select input files")
             return
@@ -602,23 +559,29 @@ class MainWindow(QMainWindow):
 
         self.start_time = time.time()
         self.worker = CompressionWorker(
-            self.input_files, self.output_dir, self.quality_value.value()
+            self.input_files[0], self.output_dir, self.quality_value.value()
         )
         self.worker.progress.connect(self.update_progress)
         self.worker.finished.connect(self.compression_finished)
         self.worker.error.connect(self.compression_error)
-        self.worker.aborted.connect(self.compression_aborted)
         self.worker.start()
 
-    def abort_compression(self):
+    def abort_compression(self) -> None:
+        """Abort the compression process."""
         if self.worker and self.worker.isRunning():
-            self.worker.abort()
+            self.worker.stop()
             self.status_label.setText("Aborting...")
             self.abort_button.setEnabled(False)
 
     def update_progress(
-        self, total_images, processed_images, current_file_num, current_file, speed
-    ):
+        self,
+        total_images: int,
+        processed_images: int,
+        current_file_num: int,
+        current_file: str,
+        speed: float,
+    ) -> None:
+        """Update progress information."""
         total_files = len(self.input_files)
         self.progress_bar.setValue(int((processed_images / total_images) * 100))
         self.file_progress_label.setText(f"File: {current_file_num}/{total_files}")
@@ -630,16 +593,16 @@ class MainWindow(QMainWindow):
         if speed > 0:
             remaining_images = total_images - processed_images
             eta_seconds = remaining_images / speed
-            if eta_seconds < 60:
+            if eta_seconds < SECONDS_IN_MINUTE:
                 eta_text = f"{eta_seconds:.0f} seconds"
-            elif eta_seconds < 3600:
-                eta_text = f"{eta_seconds/60:.1f} minutes"
+            elif eta_seconds < SECONDS_IN_HOUR:
+                eta_text = f"{eta_seconds/SECONDS_IN_MINUTE:.1f} minutes"
             else:
-                eta_text = f"{eta_seconds/3600:.1f} hours"
+                eta_text = f"{eta_seconds/SECONDS_IN_HOUR:.1f} hours"
             self.eta_label.setText(f"ETA: {eta_text}")
 
-    def reset_for_new_batch(self):
-        """Reset the UI for a new batch of files"""
+    def reset_for_new_batch(self) -> None:
+        """Reset the UI for a new batch of files."""
         self.input_files = []
         self.input_label.setText("No files selected")
         self.output_label.setText("No output directory selected")
@@ -655,7 +618,8 @@ class MainWindow(QMainWindow):
         self.abort_button.setEnabled(False)
         self.new_batch_button.setEnabled(False)
 
-    def compression_finished(self, results):
+    def compression_finished(self) -> None:
+        """Handle compression completion."""
         # Re-enable compression settings
         self.quality_slider.setEnabled(True)
         self.quality_value.setEnabled(True)
@@ -669,14 +633,15 @@ class MainWindow(QMainWindow):
         # Show compression results
         message = (
             f"Compression completed!\n\n"
-            f"Files processed: {results['processed_files']}/{results['total_files']}\n"
-            f"Original size: {results['total_original_size']:.2f} MB\n"
-            f"Compressed size: {results['total_compressed_size']:.2f} MB\n"
-            f"Space saved: {results['savings']:.1f}%"
+            f"Files processed: {len(self.input_files)}/{len(self.input_files)}\n"
+            f"Original size: {self.original_size:.2f} MB\n"
+            f"Compressed size: {self.compressed_size:.2f} MB\n"
+            f"Space saved: {self.savings:.1f}%"
         )
         QMessageBox.information(self, "Compression Results", message)
 
-    def compression_error(self, error):
+    def compression_error(self, error: str) -> None:
+        """Handle compression errors."""
         # Re-enable compression settings
         self.quality_slider.setEnabled(True)
         self.quality_value.setEnabled(True)
@@ -688,26 +653,8 @@ class MainWindow(QMainWindow):
         self.progress_bar.setValue(0)
         QMessageBox.critical(self, "Error", f"An error occurred:\n{error}")
 
-    def compression_aborted(self):
-        # Re-enable compression settings
-        self.quality_slider.setEnabled(True)
-        self.quality_value.setEnabled(True)
 
-        self.compress_button.setEnabled(False)
-        self.abort_button.setEnabled(False)
-        self.new_batch_button.setEnabled(True)
-        self.status_label.setText("Compression aborted")
-        QMessageBox.information(self, "Aborted", "Compression was aborted by user.")
-
-    def resizeEvent(self, event):
-        """Handle window resize to keep help button in top-right corner."""
-        super().resizeEvent(event)
-        # Find the help button and update its position with padding
-        for child in self.findChildren(ModernInfoIcon):
-            child.move(self.width() - 40, 15)
-
-
-def main():
+def main() -> None:
     # Initialize necessary directories
     home = str(Path.home())
     app_data = os.path.join(home, ".nanamin")

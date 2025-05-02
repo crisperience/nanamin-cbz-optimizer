@@ -49,6 +49,13 @@ wheels/
 *.egg
 MANIFEST
 
+# Python cache directories
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+.coverage
+htmlcov/
+
 # Virtual Environment
 venv/
 ENV/
@@ -74,4 +81,10 @@ build/
 # !dist/Nanamin.app
 
 # Iconset intermediate files
-src/assets/nanamin_icon.iconset/ 
+src/assets/nanamin_icon.iconset/
+
+# Cursor specific
+.cursorrules
+
+# Cursor specific
+.cursorrules 

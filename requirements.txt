@@ -1,3 +1,10 @@
+# Main dependencies
 PyQt6>=6.4.0
 Pillow>=9.0.0
-pyinstaller>=5.0.0; platform_system == "Windows" 
+pyinstaller>=5.0.0; platform_system == "Windows"
+
+# Development dependencies
+pytest>=7.0.0
+pytest-qt>=4.2.0
+ruff>=0.1.0
+mypy>=1.0.0 
