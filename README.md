@@ -12,29 +12,12 @@ If you find Nanamin useful, please consider sponsoring the project to support it
 - Batch processing support
 - Progress tracking and statistics
 
-## Installation
-
-### macOS
-
-You can download the latest signed release from the [GitHub Releases page](https://github.com/crisperience/nanamin-cbz-optimizer/releases).
-
-1. Download the `.dmg` file from the latest release.
-2. Open the DMG and drag `Nanamin.app` to your `Applications` folder.
-3. Launch Nanamin from Applications.
-
 ## Usage
 
 1. Click "Select CBZ Files" to choose your manga/comic files
 2. Select an output directory for the compressed files
 3. Adjust the quality setting if needed (85 is recommended)
 4. Click "Compress" to start the process
-
-## Quality Settings
-
-- **100**: Maximum quality, largest file size
-- **85**: Good balance (recommended)
-- **70**: Smaller file size, slight quality loss
-- **50**: Significant compression, noticeable quality loss
 
 ## Support
 
